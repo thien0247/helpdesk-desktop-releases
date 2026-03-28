@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Helpdesk Desktop - Tải xuống</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0f172a;color:#e2e8f0;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+    .card{background:#1e293b;border:1px solid #334155;border-radius:16px;padding:40px;max-width:580px;width:100%;box-shadow:0 25px 50px rgba(0,0,0,.5)}
+    .logo{display:flex;align-items:center;gap:12px;margin-bottom:32px}
+    .logo h1{font-size:22px;font-weight:700;color:#f1f5f9}
+    .logo small{font-size:12px;color:#64748b;display:block}
+    .badge{display:inline-flex;align-items:center;gap:6px;background:rgba(29,78,216,.15);border:1px solid #3b82f6;color:#60a5fa;padding:4px 12px;border-radius:100px;font-size:12px;font-weight:600;margin-bottom:12px}
+    h2{font-size:26px;font-weight:700;margin-bottom:8px}
+    .desc{color:#94a3b8;font-size:14px;margin-bottom:28px;line-height:1.6}
+    .btn-primary{display:flex;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,#3b82f6,#2563eb);color:#fff;padding:14px 24px;border-radius:10px;text-decoration:none;font-weight:600;font-size:15px;margin-bottom:10px;transition:transform .15s;width:100%}
+    .btn-primary:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(59,130,246,.4)}
+    .btn-secondary{display:flex;align-items:center;justify-content:center;gap:8px;background:#1e293b;border:1px solid #334155;color:#94a3b8;padding:10px 20px;border-radius:8px;text-decoration:none;font-size:13px;margin-bottom:24px;transition:border-color .15s;width:100%}
+    .btn-secondary:hover{border-color:#64748b;color:#e2e8f0}
+    .meta{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .meta-item{background:#0f172a;border-radius:8px;padding:12px}
+    .meta-label{font-size:11px;color:#475569;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+    .meta-value{font-size:13px;color:#cbd5e1;font-weight:500}
+    .checksum{font-family:monospace;font-size:11px;word-break:break-all;color:#64748b;margin-top:16px;padding:10px;background:#0f172a;border-radius:6px;display:none;}
+    .tip{margin-top:20px;padding:12px 16px;background:#0c2340;border-left:3px solid #3b82f6;border-radius:0 6px 6px 0;font-size:13px;color:#93c5fd}
+    .recommended{font-size:10px;background:#16a34a20;border:1px solid #16a34a;color:#4ade80;padding:2px 8px;border-radius:100px;margin-left:8px}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="logo">
+      <svg width="40" height="40" viewBox="0 0 40 40"><rect width="40" height="40" rx="10" fill="#3b82f6"/><path d="M12 20c0-4.4 3.6-8 8-8s8 3.6 8 8-3.6 8-8 8-8-3.6-8-8z" fill="white" opacity=".2"/><path d="M20 14v6l4 2" stroke="white" stroke-width="2" stroke-linecap="round"/><circle cx="20" cy="20" r="2" fill="white"/></svg>
+      <div>
+        <h1>Helpdesk Desktop</h1>
+        <small>by ZZApp IT Solutions</small>
+      </div>
+    </div>
+
+    <div class="badge" id="status-badge">Đang kết nối GitHub...</div>
+    <h2 id="version-text">Đang tải...</h2>
+    <p class="desc">Ứng dụng hỗ trợ khách hàng - tạo và theo dõi yêu cầu hỗ trợ trực tiếp từ máy tính của bạn.</p>
+
+    <a href="#" id="download-btn" class="btn-primary" style="opacity: 0.5; pointer-events: none;">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 2v9m0 0l-3-3m3 3l3-3M3 14h12"/></svg>
+      Tải Setup.exe — Windows Installer (<span id="size-text">--</span> MB)
+      <span class="recommended">Mạng toàn cầu (Cloudflare CDN)</span>
+    </a>
+
+    <div class="meta">
+      <div class="meta-item"><div class="meta-label">Phiên bản</div><div class="meta-value" id="meta-version">--</div></div>
+      <div class="meta-item"><div class="meta-label">Ngày phát hành</div><div class="meta-value" id="meta-date">--</div></div>
+      <div class="meta-item"><div class="meta-label">Nền tảng</div><div class="meta-value">Windows 10/11 (x64)</div></div>
+      <div class="meta-item"><div class="meta-label">Kích thước</div><div class="meta-value" id="meta-size">--</div></div>
+    </div>
+
+    <div class="tip">Setup.exe: tải vô hạn với tốc độ siêu nhanh thông qua mạng biên toàn cầu của Cloudflare.</div>
+  </div>
+
+  <script>
+    async function fetchLatestRelease() {
+      try {
+        const response = await fetch('https://api.github.com/repos/thien0247/helpdesk-desktop-releases/releases/latest');
+        if (!response.ok) throw new Error('Network error');
+        const data = await response.json();
+        
+        const exeAsset = data.assets.find(a => a.name.endsWith('.exe'));
+        if (!exeAsset) throw new Error('No exe asset found');
+
+        const version = data.tag_name;
+        const sizeMb = (exeAsset.size / (1024 * 1024)).toFixed(1);
+        
+        // Convert to Vietnamese timezone nicely
+        let dateStr = new Date(data.published_at).toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' });
+
+        document.getElementById('status-badge').innerText = 'Trạng thái: Hoạt động';
+        document.getElementById('version-text').innerText = version;
+        document.getElementById('meta-version').innerText = version;
+        document.getElementById('meta-date').innerText = dateStr;
+        document.getElementById('size-text').innerText = sizeMb;
+        document.getElementById('meta-size').innerText = sizeMb + ' MB';
+        
+        const btn = document.getElementById('download-btn');
+        btn.href = exeAsset.browser_download_url;
+        btn.style.opacity = '1';
+        btn.style.pointerEvents = 'auto';
+
+      } catch (error) {
+        console.error('Error fetching release:', error);
+        document.getElementById('status-badge').innerText = 'Lỗi máy chủ Github';
+        document.getElementById('version-text').innerText = 'Vui lòng tải lại trang (F5)';
+      }
+    }
+
+    fetchLatestRelease();
+  </script>
+</body>
+</html>
