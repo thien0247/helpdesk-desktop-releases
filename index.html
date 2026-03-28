@@ -3,59 +3,118 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Helpdesk Desktop - Tải xuống</title>
+  <title>Helpdesk Desktop - Hỗ trợ IT Toàn diện</title>
   <style>
-    *{margin:0;padding:0;box-sizing:border-box}
-    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f8fafc;color:#334155;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px}
-    .card{background:#ffffff;border:1px solid #e2e8f0;border-radius:16px;padding:40px;max-width:580px;width:100%;box-shadow:0 25px 50px rgba(0,0,0,.05), 0 10px 15px rgba(0,0,0,.03)}
-    .logo{display:flex;align-items:center;gap:12px;margin-bottom:32px}
-    .logo h1{font-size:22px;font-weight:700;color:#0f172a}
-    .logo small{font-size:12px;color:#64748b;display:block}
-    .badge{display:inline-flex;align-items:center;gap:6px;background:#eff6ff;border:1px solid #bfdbfe;color:#1d4ed8;padding:4px 12px;border-radius:100px;font-size:12px;font-weight:600;margin-bottom:12px}
-    h2{font-size:26px;font-weight:700;color:#0f172a;margin-bottom:8px}
-    .desc{color:#475569;font-size:14px;margin-bottom:28px;line-height:1.6}
-    .btn-primary{display:flex;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,#3b82f6,#2563eb);color:#fff;padding:14px 24px;border-radius:10px;text-decoration:none;font-weight:600;font-size:15px;margin-bottom:10px;transition:transform .15s, box-shadow .15s;width:100%;border:none;box-shadow:0 4px 6px rgba(37,99,235,.2)}
-    .btn-primary:hover{transform:translateY(-1px);box-shadow:0 10px 25px rgba(37,99,235,.3)}
-    .meta{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    .meta-item{background:#f8fafc;border:1px solid #f1f5f9;border-radius:8px;padding:12px}
-    .meta-label{font-size:11px;color:#64748b;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
-    .meta-value{font-size:13px;color:#0f172a;font-weight:600}
-    .tip{margin-top:20px;padding:12px 16px;background:#eff6ff;border-left:3px solid #3b82f6;border-radius:0 6px 6px 0;font-size:13px;color:#1e3a8a}
-    .recommended{font-size:10px;background:#dcfce7;border:1px solid #86efac;color:#166534;padding:2px 8px;border-radius:100px;margin-left:8px}
-    .footer-note{margin-top:20px;font-size:12px;color:#94a3b8;font-family:monospace;}
+    :root { --primary: #2563eb; --primary-hover: #1d4ed8; --bg: #f8fafc; --text-main: #0f172a; --text-muted: #64748b; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: var(--bg); color: var(--text-main); line-height: 1.5; overflow-x: hidden; }
+    
+    /* Decoration */
+    .blob { position: absolute; filter: blur(80px); z-index: -1; opacity: 0.4; }
+    .blob-1 { top: -100px; left: -100px; width: 400px; height: 400px; background: #60a5fa; border-radius: 50%; }
+    .blob-2 { top: 200px; right: -100px; width: 350px; height: 350px; background: #c084fc; border-radius: 50%; }
+
+    header { display: flex; justify-content: space-between; align-items: center; padding: 24px 8%; background: rgba(255,255,255,0.8); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(226,232,240,0.8); position: sticky; top: 0; z-index: 10; }
+    .logo { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 1.25rem; color: var(--text-main); }
+    .logo svg { width: 32px; height: 32px; border-radius: 8px; }
+
+    .hero { max-width: 800px; margin: 80px auto 30px; text-align: center; padding: 0 24px; }
+    .hero h1 { font-size: 3.5rem; font-weight: 800; line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 24px; background: linear-gradient(135deg, #0f172a 0%, #334155 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero p { font-size: 1.25rem; color: var(--text-muted); margin-bottom: 40px; }
+
+    .download-widget { background: white; border-radius: 24px; padding: 32px; box-shadow: 0 20px 40px -15px rgba(0,0,0,0.05), 0 0 0 1px rgba(226,232,240,0.8); max-width: 480px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; position: relative; }
+    .status-badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: #eff6ff; color: #1d4ed8; padding: 4px 16px; border-radius: 100px; font-size: 0.75rem; font-weight: 600; border: 1px solid #bfdbfe; white-space: nowrap; }
+    
+    .btn-dl { display: flex; align-items: center; justify-content: center; gap: 12px; background: var(--primary); color: white; padding: 18px 24px; border-radius: 12px; font-size: 1.1rem; font-weight: 600; text-decoration: none; transition: all 0.2s; box-shadow: 0 8px 20px -6px rgba(37,99,235,0.4); opacity: 0.5; pointer-events: none; }
+    .btn-dl:hover { background: var(--primary-hover); transform: translateY(-2px); box-shadow: 0 12px 25px -8px rgba(37,99,235,0.5); }
+    
+    .dl-meta { display: flex; justify-content: space-between; font-size: 0.875rem; color: var(--text-muted); padding-top: 12px; border-top: 1px solid #f1f5f9; }
+    .dl-meta span strong { color: var(--text-main); font-weight: 600; }
+
+    .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; max-width: 1100px; margin: 80px auto; padding: 0 24px; }
+    .feature { background: white; padding: 32px; border-radius: 20px; border: 1px solid #e2e8f0; transition: transform 0.2s; }
+    .feature:hover { transform: translateY(-4px); box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05); }
+    .f-icon { width: 48px; height: 48px; background: #eff6ff; color: #2563eb; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }
+    .f-icon svg { width: 24px; height: 24px; }
+    .feature h3 { font-size: 1.25rem; font-weight: 700; margin-bottom: 12px; }
+    .feature p { color: var(--text-muted); font-size: 0.95rem; }
+
+    footer { text-align: center; padding: 40px; color: #94a3b8; font-size: 0.875rem; border-top: 1px solid #e2e8f0; margin-top: 40px; }
+    .version-stamp { font-family: monospace; opacity: 0.5; margin-top: 8px; }
+
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 2.5rem; }
+      .hero p { font-size: 1.1rem; }
+      header { padding: 16px 20px; }
+    }
   </style>
 </head>
 <body>
-  <div class="card">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+
+  <header>
     <div class="logo">
-      <svg width="40" height="40" viewBox="0 0 40 40"><rect width="40" height="40" rx="10" fill="#3b82f6"/><path d="M12 20c0-4.4 3.6-8 8-8s8 3.6 8 8-3.6 8-8 8-8-3.6-8-8z" fill="white" opacity=".2"/><path d="M20 14v6l4 2" stroke="white" stroke-width="2" stroke-linecap="round"/><circle cx="20" cy="20" r="2" fill="white"/></svg>
-      <div>
-        <h1>Helpdesk Desktop</h1>
-        <small>by ZZApp IT Solutions</small>
+      <svg viewBox="0 0 40 40"><rect width="40" height="40" rx="10" fill="#2563eb"/><path d="M12 20c0-4.4 3.6-8 8-8s8 3.6 8 8-3.6 8-8 8-8-3.6-8-8z" fill="white" opacity=".2"/><path d="M20 14v6l4 2" stroke="white" stroke-width="2" stroke-linecap="round"/><circle cx="20" cy="20" r="2" fill="white"/></svg>
+      Helpdesk Suite
+    </div>
+    <div style="font-size: 0.9rem; font-weight: 600; color: #64748b;">Client Portal</div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1>Hỗ trợ tức thì.<br> Xử lý sự cố ngay từ Desktop.</h1>
+      <p>Ứng dụng Helpdesk hiệu suất cao dành cho Windows. Gửi, theo dõi và quản lý các yêu cầu hỗ trợ IT mượt mà mà không cần chờ mở trình duyệt web.</p>
+
+      <div class="download-widget">
+        <div class="status-badge" id="status-badge">⚡ Đang kết nối máy chủ CDN...</div>
+        
+        <div style="text-align: center; margin-bottom: 8px;">
+          <h2 id="version-title" style="font-size: 1.5rem; font-weight: 700; color: #0f172a;">Phiên bản mới nhất</h2>
+          <p id="release-date" style="font-size: 0.9rem; color: #64748b; margin-top: 4px;">Đang tải thông tin...</p>
+        </div>
+
+        <a href="#" id="download-btn" class="btn-dl">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+          Tải xuống cho Windows
+        </a>
+
+        <div class="dl-meta">
+          <span>Dung lượng: <strong id="size-text">-- MB</strong></span>
+          <span>Hệ điều hành: <strong>Win 10/11 (x64)</strong></span>
+        </div>
       </div>
-    </div>
+    </section>
 
-    <div class="badge" id="status-badge">Đang kết nối GitHub...</div>
-    <h2 id="version-text">Đang tải...</h2>
-    <p class="desc">Ứng dụng hỗ trợ khách hàng - tạo và theo dõi yêu cầu hỗ trợ trực tiếp từ máy tính của bạn.</p>
+    <section class="features">
+      <div class="feature">
+        <div class="f-icon">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+        </div>
+        <h3>Tốc độ Native AOT</h3>
+        <p>Biên dịch trực tiếp dạng Native Code, dung lượng siêu nhẹ, khởi động tức thì và không phụ thuộc vào .NET Framework của máy Client.</p>
+      </div>
+      <div class="feature">
+        <div class="f-icon">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+        </div>
+        <h3>Tự động Cập nhật</h3>
+        <p>Phân phối ngầm qua Edge Network bằng Github Releases. Phần mềm luôn tự nâng cấp lên bản mới nhất mỗi khi bạn mở ứng dụng.</p>
+      </div>
+      <div class="feature">
+        <div class="f-icon">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+        </div>
+        <h3>Truyền dẫn Bảo mật</h3>
+        <p>Client cài đặt sẵn hệ thống quản lý Root CA Trusted Certificates. Dữ liệu giao tiếp hoàn toàn bảo mật theo chuẩn Enterprise Security cấp cao.</p>
+      </div>
+    </section>
+  </main>
 
-    <a href="#" id="download-btn" class="btn-primary" style="opacity: 0.5; pointer-events: none;">
-      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 2v9m0 0l-3-3m3 3l3-3M3 14h12"/></svg>
-      Tải Setup.exe — Windows Installer (<span id="size-text">--</span> MB)
-      <span class="recommended">Mạng toàn cầu (Cloudflare CDN)</span>
-    </a>
-
-    <div class="meta">
-      <div class="meta-item"><div class="meta-label">Phiên bản</div><div class="meta-value" id="meta-version">--</div></div>
-      <div class="meta-item"><div class="meta-label">Ngày phát hành</div><div class="meta-value" id="meta-date">--</div></div>
-      <div class="meta-item"><div class="meta-label">Nền tảng</div><div class="meta-value">Windows 10/11 (x64)</div></div>
-      <div class="meta-item"><div class="meta-label">Kích thước</div><div class="meta-value" id="meta-size">--</div></div>
-    </div>
-
-    <div class="tip">Setup.exe: tải vô hạn với tốc độ siêu nhanh thông qua mạng biên toàn cầu của Cloudflare.</div>
-  </div>
-  
-  <div class="footer-note">Deployed via Cloudflare Pages: v2026.03.28-1</div>
+  <footer>
+    <p>&copy; 2026 ZZApp IT Solutions. All rights reserved.</p>
+    <p class="version-stamp">Deployed via Cloudflare Pages &bull; v2026.03.28-HQ-SaaS-UI</p>
+  </footer>
 
   <script>
     async function fetchLatestRelease() {
@@ -69,16 +128,16 @@
 
         const version = data.tag_name;
         const sizeMb = (exeAsset.size / (1024 * 1024)).toFixed(1);
-        
-        // Convert to Vietnamese timezone nicely
-        let dateStr = new Date(data.published_at).toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' });
+        const dateStr = new Date(data.published_at).toLocaleDateString('vi-VN', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'Asia/Ho_Chi_Minh' });
 
-        document.getElementById('status-badge').innerText = 'Trạng thái: Hoạt động';
-        document.getElementById('version-text').innerText = version;
-        document.getElementById('meta-version').innerText = version;
-        document.getElementById('meta-date').innerText = dateStr;
-        document.getElementById('size-text').innerText = sizeMb;
-        document.getElementById('meta-size').innerText = sizeMb + ' MB';
+        document.getElementById('status-badge').innerText = '🔥 Đã lấy thông tin thành công';
+        document.getElementById('status-badge').style.background = '#dcfce7';
+        document.getElementById('status-badge').style.color = '#166534';
+        document.getElementById('status-badge').style.borderColor = '#bbf7d0';
+
+        document.getElementById('version-title').innerText = `Phiên bản ${version}`;
+        document.getElementById('release-date').innerText = `Phát hành: ${dateStr}`;
+        document.getElementById('size-text').innerText = `${sizeMb} MB`;
         
         const btn = document.getElementById('download-btn');
         btn.href = exeAsset.browser_download_url;
@@ -87,11 +146,13 @@
 
       } catch (error) {
         console.error('Error fetching release:', error);
-        document.getElementById('status-badge').innerText = 'Lỗi máy chủ Github';
-        document.getElementById('version-text').innerText = 'Vui lòng tải lại trang (F5)';
+        document.getElementById('status-badge').innerText = 'Lỗi kết nối Github';
+        document.getElementById('status-badge').style.background = '#fee2e2';
+        document.getElementById('status-badge').style.color = '#991b1b';
+        document.getElementById('version-title').innerText = 'Không thể lấy file tải';
+        document.getElementById('release-date').innerText = 'Vui lòng nhấn phím F5 thử lại';
       }
     }
-
     fetchLatestRelease();
   </script>
 </body>
